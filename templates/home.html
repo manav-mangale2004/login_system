@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - Smart Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Reset & Layout */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #0f0f0f;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #1abc9c;
+        }
+
+        nav .brand {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1abc9c;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            background: #e74c3c;
+            padding: 8px 14px;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            background: #c0392b;
+        }
+
+        .content {
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .content h2 {
+            color: #1abc9c;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .content p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        #toggleBtn {
+            padding: 12px 25px;
+            font-size: 16px;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #toggleBtn:hover {
+            background-color: #2471a3;
+        }
+
+        /* Calculator Container */
+        #calculator {
+            display: none;
+            margin: 40px auto;
+            padding: 25px;
+            border: 2px solid #1abc9c;
+            width: 320px;
+            border-radius: 15px;
+            background-color: #1e1e1e;
+            box-shadow: 0 0 20px #1abc9c;
+        }
+
+        #calculator input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 22px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 8px;
+            background-color: #000;
+            color: #00ffcc;
+            text-align: right;
+        }
+
+        .calc-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .calc-buttons button {
+            height: 50px;
+            font-size: 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #1abc9c;
+            color: #000;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .calc-buttons button:hover {
+            background-color: #16a085;
+        }
+
+        .clear-btn {
+            grid-column: span 4;
+            background-color: #e74c3c !important;
+            color: white !important;
+        }
+
+        .clear-btn:hover {
+            background-color: #c0392b !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="brand">Welcome, {{ username }}</div>
+        <div><a href="{{ url_for('logout') }}">Logout</a></div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="content">
+        <h2>Smart Calculator Dashboard</h2>
+        <p>Launch your powerful, neon-themed calculator right from this panel.</p>
+        <button id="toggleBtn">Use Calculator</button>
+    </div>
+
+    <!-- Calculator Component -->
+    <div id="calculator">
+        <input type="text" id="display" disabled>
+        <div class="calc-buttons">
+            <button onclick="append('7')">7</button>
+            <button onclick="append('8')">8</button>
+            <button onclick="append('9')">9</button>
+            <button onclick="append('+')">+</button>
+
+            <button onclick="append('4')">4</button>
+            <button onclick="append('5')">5</button>
+            <button onclick="append('6')">6</button>
+            <button onclick="append('-')">-</button>
+
+            <button onclick="append('1')">1</button>
+            <button onclick="append('2')">2</button>
+            <button onclick="append('3')">3</button>
+            <button onclick="append('*')">*</button>
+
+            <button onclick="append('0')">0</button>
+            <button onclick="append('.')">.</button>
+            <button onclick="calculate()">=</button>
+            <button onclick="append('/')">/</button>
+
+            <button class="clear-btn" onclick="clearDisplay()">Clear</button>
+        </div>
+    </div>
+
+    <!-- JavaScript for Calculator -->
+    <script>
+        const calculator = document.getElementById('calculator');
+        const toggleBtn = document.getElementById('toggleBtn');
+        const display = document.getElementById('display');
+
+        function append(value) {
+            display.value += value;
+        }
+
+        function calculate() {
+            try {
+                display.value = eval(display.value);
+            } catch {
+                display.value = 'Error';
+            }
+        }
+
+        function clearDisplay() {
+            display.value = '';
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            calculator.style.display = calculator.style.display === 'none' ? 'block' : 'none';
+        });
+    </script>
+
+</body>
+</html>
